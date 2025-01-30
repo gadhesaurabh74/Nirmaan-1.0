@@ -21,18 +21,10 @@ export default function AuthModal({ mode, onClose, onLogin, onSignup }) {
       return;
     }
 
-    // Password length validation (minimum 6 characters)
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
-
     if (mode === 'login') {
-      // Call the onLogin prop which should handle authentication logic
-      onLogin(email, password).catch((err) => setError(err.message));
+      onLogin(email, password);
     } else {
-      // Call the onSignup prop which should handle the signup logic
-      onSignup(email, password, name).catch((err) => setError(err.message));
+      onSignup(email, password, name);
     }
   };
 

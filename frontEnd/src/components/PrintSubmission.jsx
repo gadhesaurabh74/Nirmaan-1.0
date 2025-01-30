@@ -5,11 +5,11 @@ export default function PrintSubmission({ onNavigateToHome }) {
   const [selectedPayment, setSelectedPayment] = useState(null);
 
   const handlePrintSubmit = () => {
-    setIsPrintSubmitted(true); // Set the state to show the payment section
+    setIsPrintSubmitted(true); // Show the payment section
   };
 
   const handlePaymentSelection = (method) => {
-    setSelectedPayment(method); // Update the selected payment method
+    setSelectedPayment(method); // Set the selected payment method
   };
 
   const handlePaymentSubmit = () => {
@@ -28,14 +28,12 @@ export default function PrintSubmission({ onNavigateToHome }) {
 
         {/* If print job is not submitted yet */}
         {!isPrintSubmitted ? (
-          <div>
-            <button
-              onClick={handlePrintSubmit}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all"
-            >
-              Submit Print Job
-            </button>
-          </div>
+          <button
+            onClick={handlePrintSubmit}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all"
+          >
+            Submit Print Job
+          </button>
         ) : (
           <div className="mt-6">
             {/* Payment Mode Selection */}

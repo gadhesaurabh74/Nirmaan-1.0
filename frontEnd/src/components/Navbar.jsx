@@ -16,18 +16,23 @@ export default function Navbar({ user, onLogout }) {
           <div className="flex items-center space-x-4">
             <button className="p-2 rounded-full hover:bg-gray-100 relative">
               <Bell className="h-6 w-6 text-gray-600" />
-              <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+              {/* Conditionally show the notification bubble */}
+              {false && (
+                <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+              )}
             </button>
             
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100"
+                aria-expanded={showProfileMenu}
+                aria-haspopup="true"
               >
                 <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
-                  {user?.name.charAt(0).toUpperCase()}
+                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                 </div>
-                <span className="text-gray-700">{user?.name}</span>
+                <span className="text-gray-700">{user?.name || 'User'}</span>
                 <ChevronDown className="h-4 w-4 text-gray-500" />
               </button>
 
