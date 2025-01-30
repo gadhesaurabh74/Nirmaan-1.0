@@ -3,17 +3,74 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const router=express.Router();
 
-router.get('/', function(req, res){
-    res.send("This is the users page");
+const menu = [
+    { id: 1, item: "Burger", price: 5.99 },
+    { id: 2, item: "Pizza", price: 8.99 },
+    { id: 3, item: "Pasta", price: 7.49 },
+    { id: 4, item: "Coffee", price: 2.99 },
+    { id: 5, item: "Sandwich", price: 4.49 }
+];
+
+router.get('/canteen', function(req, res) {
+    res.json({
+        message: "Welcome to the Canteen!",
+        menu: menu
+    });
 });
 
-router.get('/canteen', function(req, res){
-    res.send(`This is the user with canteen`);
+
+// Store orders by user ID (For production, use a database)
+let userOrders = {};
+
+// Route to get orders for a specific user by ID
+router.get('/canteen/:id/orders', function(req, res) {
+    const userId = req.params.id;
+
+    // Check if the user has placed any orders
+    if (!userOrders[userId] || userOrders[userId].length === 0) {
+        return res.status(404).json({
+            message: `No orders found for user with ID: ${userId}`
+        });
+    }
+
+    res.json({
+        message: `Orders for user with ID: ${userId}`,
+        orders: userOrders[userId]
+    });
 });
 
-router.get('/canteen/:id/orders', function(req, res){
-    res.send(`This is the orders for user with id ${req.params.id}`);
+// Route to place an order for a specific user by ID
+router.post('/canteen/:id/order', function(req, res) {
+    const userId = req.params.id;
+    const { itemId, quantity } = req.body;
+
+    // Find the menu item by ID
+    const menuItem = menu.find(item => item.id === itemId);
+    if (!menuItem) {
+        return res.status(404).json({ error: "Item not found" });
+    }
+
+    // Create a new order for the user
+    const order = {
+        id: userOrders[userId] ? userOrders[userId].length + 1 : 1,
+        item: menuItem.item,
+        quantity: quantity,
+        total: (menuItem.price * quantity).toFixed(2)
+    };
+
+    // Store the order for the user
+    if (!userOrders[userId]) {
+        userOrders[userId] = [];
+    }
+    userOrders[userId].push(order);
+
+    res.json({
+        message: `Order placed successfully for user ${userId}`,
+        order: order
+    });
 });
+
+module.exports = router;
 
 router.post('/canteen/:id/orders', function(req, res){
     res.send(`Creating an order for user with id ${req.params.id}`);
