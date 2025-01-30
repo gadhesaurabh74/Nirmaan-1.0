@@ -44,7 +44,7 @@ export default function PrintingService() {
           </div>
         </div>
         <button
-          onClick={() => setShowAdvanced(!showAdvanced)}
+          onClick={() => setShowAdvanced(!showAdvanced)} // Toggle state here
           className="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
         >
           <Settings className="h-5 w-5 mr-2" />
@@ -205,11 +205,7 @@ export default function PrintingService() {
       <div className="mt-8">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Recent Print Jobs</h3>
         <div className="space-y-4">
-          {[
-            { id: 1, name: 'Assignment.pdf', status: 'Processing', time: '2 mins ago' },
-            { id: 2, name: 'Research_Paper.docx', status: 'Queued', time: '5 mins ago' },
-            { id: 3, name: 'Presentation.pdf', status: 'Completed', time: '15 mins ago' }
-          ].map((job) => (
+          {[{ id: 1, name: 'Assignment.pdf', status: 'Processing', time: '2 mins ago' }].map((job) => (
             <div
               key={job.id}
               className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -221,11 +217,15 @@ export default function PrintingService() {
                   <p className="text-sm text-gray-500">{job.time}</p>
                 </div>
               </div>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                job.status === 'Processing' ? 'bg-blue-100 text-blue-700' :
-                job.status === 'Queued' ? 'bg-yellow-100 text-yellow-700' :
-                'bg-green-100 text-green-700'
-              }`}>
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  job.status === 'Processing'
+                    ? 'bg-blue-100 text-blue-700'
+                    : job.status === 'Queued'
+                    ? 'bg-yellow-100 text-yellow-700'
+                    : 'bg-green-100 text-green-700'
+                }`}
+              >
                 {job.status}
               </span>
             </div>
